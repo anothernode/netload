@@ -1,0 +1,18 @@
+{
+  "name": "netload",
+  "version": "0.1.0",
+  "description": "Display network load in a terminal",
+  "main": "index.js",
+  "bin": {
+    "netload": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "moritz@anothernode.com",
+  "license": "MIT",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.8"
+  }
+}
