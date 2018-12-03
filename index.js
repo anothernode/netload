@@ -4,22 +4,30 @@ let blessed = require('blessed');
 let blessedContrib = require('blessed-contrib');
 let screen = blessed.screen();
 
-let sparkline = blessedContrib.sparkline({
-    label: 'netload',
-    tags: true,
-    style: { fg: 'red' }
+let netloadBar = blessedContrib.netloadBar({
+    barWidth: 3,
+    barSpacing: 5,
+    xOffset: 0,
+    maxHeight: 3
 });
-screen.append(sparkline);
-sparkline.setData(
-    [ 'Sparkline1', 'Sparkline2'],
-    [
-        [10, 20, 30, 20],
-        [40, 10, 40, 50]
-    ]
-);
+
+screen.append(netloadBar);
+
+let titles = [];
+for (let i = 0; i < 10; i++) {
+    titles.push(' ');
+}
+function updateData() {
+    let data = [];
+    for (let i = 0; i < titles.length; i++) {
+        data.push(Math.round(Math.random() * 10))
+    }
+    netloadBar.setData({titles: titles, data: data});
+    screen.render();
+}
+updateData();
+setInterval(updateData, 1000);
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
     return process.exit(0);
 });
-
-screen.render();
