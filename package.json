@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
-    "blessed-contrib": "github:anothernode/blessed-contrib"
+    "blessed-contrib": "github:anothernode/blessed-contrib",
+    "terminal-kit": "^1.26.7"
   }
 }
