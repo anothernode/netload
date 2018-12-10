@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-let blessed = require('blessed');
-let blessedContrib = require('blessed-contrib');
-let screen = blessed.screen();
+const sysinf = require('systeminformation');
+const blessed = require('blessed');
+const blessedContrib = require('blessed-contrib');
 
 let term = require('terminal-kit').terminal;
+let screen = blessed.screen();
 
 let grid = new blessedContrib.grid({ rows: 1, cols: 1, screen: screen });
 
@@ -17,7 +18,36 @@ let netloadBar = grid.set(0, 0, 1, 1, blessedContrib.netloadBar, {
     showText: false,
 });
 
-screen.append(netloadBar);
+var box = blessed.box({
+    bottom: 0,
+    left: 0,
+    width: 'shrink',
+    height: 'shrink',
+    content: ' RX: {bold}0{/bold}\n TX: {bold}0{/bold} ',
+    tags: true,
+    border: {
+        type: 'line',
+    },
+    style: {
+        fg: 'white',
+        border: {
+            fg: 'cyan'
+        },
+    }
+});
+screen.append(box);
+
+let rx_sec = 0;
+let tx_sec = 0;
+setInterval(function() {
+    sysinf.networkStats().then(data => {
+        rx_sec = (data.rx_sec).toFixed(0);
+        tx_sec = (data.tx_sec).toFixed(0);
+        box.setContent(
+            " RX: {bold}" + rx_sec + "{/bold} \n" +
+            " TX: {bold}" + tx_sec + "{/bold} ");
+    })
+});
 
 let titles = [];
 for (let i = 0; i < term.width; i++) {
