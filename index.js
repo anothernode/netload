@@ -38,15 +38,14 @@ var box = blessed.box({
 screen.append(box);
 
 let data = [];
+let rx_sec;
+let tx_sec;
 
 updateScreen();
 setInterval(updateScreen, 1000);
 
 function updateScreen() {
     screen.render();
-
-    let rx_sec = 0;
-    let tx_sec = 0;
 
     sysinf.networkStats().then(data => {
         rx_sec = (data.rx_sec).toFixed(0);
@@ -56,10 +55,13 @@ function updateScreen() {
             " TX: {bold}" + tx_sec + "{/bold} ");
     });
 
-    data = [];
-    for (let i = 0; i < term.width; i++) {
-        data.push(Math.round(Math.random() * 100));
+    if (rx_sec >= 0) {
+        data.push(rx_sec);
     }
+    if (data.length > (term.width) / 3) {
+        data.shift();
+    }
+
     netloadBar.setData({ data: data });
 }
 
