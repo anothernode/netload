@@ -37,33 +37,31 @@ var box = blessed.box({
 });
 screen.append(box);
 
-let rx_sec = 0;
-let tx_sec = 0;
-setInterval(function() {
+let data = [];
+
+updateScreen();
+setInterval(updateScreen, 1000);
+
+function updateScreen() {
+    screen.render();
+
+    let rx_sec = 0;
+    let tx_sec = 0;
+
     sysinf.networkStats().then(data => {
         rx_sec = (data.rx_sec).toFixed(0);
         tx_sec = (data.tx_sec).toFixed(0);
         box.setContent(
             " RX: {bold}" + rx_sec + "{/bold} \n" +
             " TX: {bold}" + tx_sec + "{/bold} ");
-    })
-});
+    });
 
-let titles = [];
-for (let i = 0; i < term.width; i++) {
-    titles.push(' ');
-}
-
-function updateData() {
-    let data = [];
-    for (let i = 0; i < titles.length; i++) {
-        data.push(Math.round(Math.random() * 9))
+    data = [];
+    for (let i = 0; i < term.width; i++) {
+        data.push(Math.round(Math.random() * 100));
     }
-    netloadBar.setData({ titles: titles, data: data });
-    screen.render();
+    netloadBar.setData({ data: data });
 }
-updateData();
-setInterval(updateData, 1000);
 
 screen.key(['escape', 'q', 'C-c'], function (ch, key) {
     return process.exit(0);
