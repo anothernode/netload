@@ -11,8 +11,8 @@ let grid = new blessedContrib.grid({ rows: 1, cols: 1, screen: screen });
 
 let netloadBar = grid.set(0, 0, 1, 1, blessedContrib.netloadBar, {
     label: "netload",
-    barWidth: 1,
-    barSpacing: 2,
+    barWidth: 0.5,
+    barSpacing: 1,
     xOffset: 1,
     maxHeight: 3,
     showText: false,
@@ -20,7 +20,7 @@ let netloadBar = grid.set(0, 0, 1, 1, blessedContrib.netloadBar, {
 
 var box = blessed.box({
     bottom: 0,
-    left: 0,
+    right: 0,
     width: 'shrink',
     height: 'shrink',
     content: ' RX: {bold}0{/bold}\n TX: {bold}0{/bold} ',
@@ -58,7 +58,7 @@ function updateScreen() {
     if (rx_sec >= 0) {
         data.push(rx_sec);
     }
-    if (data.length > (term.width) / 3) {
+    if (data.length > term.width - 3) {
         data.shift();
     }
 
