@@ -48,8 +48,8 @@ function updateScreen() {
     screen.render();
 
     sysinf.networkStats().then(data => {
-        rx_sec = (data.rx_sec).toFixed(0);
-        tx_sec = (data.tx_sec).toFixed(0);
+        rx_sec = (data.rx_sec / 1024).toFixed(2);
+        tx_sec = (data.tx_sec / 1024).toFixed(2);
         box.setContent(
             " RX: {bold}" + rx_sec + "{/bold} \n" +
             " TX: {bold}" + tx_sec + "{/bold} ");
