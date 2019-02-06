@@ -45,7 +45,22 @@ updateScreen();
 setInterval(updateScreen, 1000);
 
 function updateScreen() {
-    screen.render();
+
+    let innerWidth = term.width - 3;
+    if (data.length < innerWidth) {
+        let fillUp = innerWidth - data.length;
+        for (let i = 0; i < fillUp; i++) {
+            data.push(0);
+        }
+    }
+    if (rx_sec >= 0) {
+        data.push(rx_sec);
+    }
+    if (data.length > innerWidth) {
+        data.shift();
+    }
+
+    netloadBar.setData({ data: data });
 
     sysinf.networkStats().then(data => {
         rx_sec = (data.rx_sec / 1024).toFixed(2);
@@ -55,14 +70,7 @@ function updateScreen() {
             " TX: {bold}" + tx_sec + "{/bold} ");
     });
 
-    if (rx_sec >= 0) {
-        data.push(rx_sec);
-    }
-    if (data.length > term.width - 3) {
-        data.shift();
-    }
-
-    netloadBar.setData({ data: data });
+    screen.render();
 }
 
 screen.key(['escape', 'q', 'C-c'], function (ch, key) {
