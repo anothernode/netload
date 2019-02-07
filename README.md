@@ -1,7 +1,7 @@
 # netload
 
 `netload` is a very simple network traffic visualizer for the terminal. It shows
-a moving bar graph representing the inbound network traffic and small box with
+a moving bar graph representing the inbound network traffic and a small box with
 RX and TX traffic in kilobytes.
 
 ![Screenshot](/screenshot.png)
